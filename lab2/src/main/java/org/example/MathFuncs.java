@@ -3,11 +3,11 @@ package org.example;
 import java.lang.Math;
 
 public class MathFuncs {
-    public static int factorial(int x) {
-        if (x < 1) {
-            throw new IllegalArgumentException("x can't be < 1");
+    public static double factorial(int x) {
+        if (x < 0) {
+            throw new IllegalArgumentException("x can't be < 0");
         }
-        int product = 1;
+        double product = 1;
         for (int i = 2; i <= x; i++) {
             product *= i;
         }
@@ -20,7 +20,7 @@ public class MathFuncs {
         }
         double summ = 0;
         for (int i = 0; i < terms; i++) {
-            summ += Math.pow(-1, i + 1) * Math.pow(x, 2 * i + 1) / factorial(2 * i + 1);
+            summ += Math.pow(-1, i) * Math.pow(x, 2 * i + 1) / factorial(2 * i + 1);
         }
         return summ;
     }
@@ -45,10 +45,18 @@ public class MathFuncs {
             throw new IllegalArgumentException("terms can't be < 1");
         }
         double summ = 0;
-        for (int i = 1; i <= terms; i++) {
-            summ += Math.pow(-1, i + 1) * Math.pow(x - 1, i) / i;
+        if (x < 2) {
+            for (int i = 1; i <= terms; i++) {
+                summ += Math.pow(-1, i + 1) * Math.pow(x - 1, i) / i;
+            }
+            return summ;
+        } else {
+            for (int i = 1; i <= terms; i++) {
+                summ += Math.pow(-1, i + 1) * Math.pow(x - 1, -i) / i;
+            }
+            double acc = ln(x - 1, terms);
+            return summ + acc;
         }
-        return summ;
     }
 
     public static double log_2(double x, int terms) {
